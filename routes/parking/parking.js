@@ -14,6 +14,12 @@ router.get("/", async (req, res) => {
       })
       .populate({
         path: "parkingAreaId",
+        populate: {
+          path: "belongsTo",
+          populate: {
+            path: "userId",
+          },
+        },
       })
       .populate({
         path: "employeeId",
@@ -58,6 +64,8 @@ router.post("/", async (req, res) => {
 
     const parkingArea = await ParkingArea.findById(req.body.parkingAreaId);
     if (!parkingArea) return res.status(404).json({ message: "Parking area not found for given id." });
+
+    console.log("parking area ", parkingArea);
 
     let isEmplpoyeeExist = await Employee.findOne({ _id: req.body.employeeId });
     if (!isEmplpoyeeExist)

@@ -21,6 +21,10 @@ const parkingSchema = new mongoose.Schema({
   },
   startTime: Number,
   endTime: Number,
+  slotNo: {
+    type: String,
+    required: true,
+  },
 });
 
 // pre hook for 'save': update the isParked property to true and add 1 to the bookedSlots when parking document is created
@@ -62,6 +66,7 @@ function validateParking(parking) {
       .required(),
     startTime: Joi.number().min(0).max(9999999999999).required(),
     endTime: Joi.number().min(0).max(9999999999999).required(),
+    slotNo: Joi.string().required(),
   };
 
   return Joi.validate(parking, schema);
