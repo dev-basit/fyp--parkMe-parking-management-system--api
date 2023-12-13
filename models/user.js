@@ -58,7 +58,7 @@ const userSchema = new mongoose.Schema({
   type: {
     type: String,
     required: true,
-    enum: ["admin", "employee", "company"],
+    enum: ["admin", "employee", "company", "guard"],
   },
 });
 
@@ -88,7 +88,7 @@ function validateUser(user) {
     address: Joi.string().min(5).max(1024).required(),
     country: Joi.string().min(2).max(128).required(),
     city: Joi.string().min(2).max(128).required(),
-    type: Joi.string().valid("employee", "company").required(),
+    type: Joi.string().valid("employee", "company", "guard").required(),
   };
 
   return Joi.validate(user, schema);

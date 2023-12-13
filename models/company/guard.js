@@ -1,7 +1,7 @@
 const Joi = require("joi");
 const mongoose = require("mongoose");
 
-const employeeSchema = new mongoose.Schema({
+const guardSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -12,33 +12,27 @@ const employeeSchema = new mongoose.Schema({
     ref: "Company",
     required: true,
   },
-  departmentId: {
+  assignedParkingId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Department",
-    required: true,
+    ref: "Parking",
   },
-  assignedVehicleId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Vehicle",
-  },
-  assignedVehicle: {
+  assignedParking: {
     type: String,
-    default: "false",
+    // required: true,
   },
 });
 
-const Employee = mongoose.model("Employee", employeeSchema);
+const Guard = mongoose.model("Guard", guardSchema);
 
-function validateEmployee(employee) {
+function validateGuard(guard) {
   const schema = {
     companyId: Joi.string()
       .regex(/^[0-9a-fA-F]{24}$/)
       .required(),
-    departmentId: Joi.string()
-      .regex(/^[0-9a-fA-F]{24}$/)
-      .required(),
-    assignedVehicleId: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
-    assignedVehicle: Joi.string().min(3).max(5),
+    // assignedParkingId: Joi.string()
+    //   .regex(/^[0-9a-fA-F]{24}$/)
+    //   .required(),
+    // assignedParking: Joi.string().required(),
 
     // this will be used to create User first, and then this userId will be assigned to employee automatically
     username: Joi.string().min(2).max(50).required(),
@@ -52,23 +46,23 @@ function validateEmployee(employee) {
     type: Joi.string().valid("employee", "company", "guard").required(),
   };
 
-  return Joi.validate(employee, schema);
+  return Joi.validate(guard, schema);
 }
 
-function validateAssignVehicle(assignVehicle) {
+function validateAssignParkingArea(assignParking) {
   const schema = {
-    employeeId: Joi.string()
+    guardId: Joi.string()
       .regex(/^[0-9a-fA-F]{24}$/)
       .required(),
-    vehicleId: Joi.string()
+    parkingAreaId: Joi.string()
       .regex(/^[0-9a-fA-F]{24}$/)
       .required(),
     assign: Joi.boolean().required(),
   };
 
-  return Joi.validate(assignVehicle, schema);
+  return Joi.validate(assignParking, schema);
 }
 
-exports.Employee = Employee;
-exports.validate = validateEmployee;
-exports.validateAssignVehicle = validateAssignVehicle;
+exports.Guard = Guard;
+exports.validate = validateGuard;
+exports.validateAssignParkingArea = validateAssignParkingArea;

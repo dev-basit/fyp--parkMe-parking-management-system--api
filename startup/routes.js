@@ -4,6 +4,7 @@ const { router: users } = require("../routes/users");
 const company = require("../routes/company/company");
 const department = require("../routes/company/department");
 const employee = require("../routes/company/employee");
+const guard = require("../routes/company/guard");
 const vehicle = require("../routes/vehicle/vehicle");
 const vehicleType = require("../routes/vehicle/vehicleType");
 const fuelType = require("../routes/vehicle/fuelType");
@@ -19,6 +20,7 @@ module.exports = function (app) {
   app.use("/api/companies", company);
   app.use("/api/departments", department);
   app.use("/api/employees", employee);
+  app.use("/api/guards", guard);
   app.use("/api/vehicles", vehicle);
   app.use("/api/vehicle-types", vehicleType);
   app.use("/api/fuel-types", fuelType);
